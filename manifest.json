@@ -1,11 +1,11 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "obsidian-spirits-boo",
+	"name": "The Spirits' Book",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"description": "An Obsidian plugin to study and explore *The Spirits' Book* by Allan Kardec, directly within your vault.",
+	"author": "ahlrodrigues",
+	"authorUrl": "https://github.com/ahlrodrigues",
+	"fundingUrl": "https://www.buymeacoffee.com/ahlrodrigues",
 	"isDesktopOnly": false
 }
