@@ -61,7 +61,9 @@ You can:
 
 If this plugin is useful for your spiritual studies, you can support my work:
 
-[![Buy Me a Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://www.buymeacoffee.com/ahlrodrigues)
+<a href="https://www.buymeacoffee.com/ahlrodrigues" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" height="32">
+</a>
 
 Or, if you're in Brazil, use Pix:  
 Chave: `ahlr_2000@yahoo.com`  
