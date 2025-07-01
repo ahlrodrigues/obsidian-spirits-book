@@ -1,7 +1,7 @@
 {
-	"id": "obsidian-spirits-boo",
+	"id": "spirits-boo",
 	"name": "The Spirits' Book",
-	"version": "1.0.0",
+	"version": "V1.0.0",
 	"minAppVersion": "0.15.0",
 	"description": "An Obsidian plugin to study and explore *The Spirits' Book* by Allan Kardec, directly within your vault.",
 	"author": "ahlrodrigues",
