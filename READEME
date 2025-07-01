@@ -1,0 +1,88 @@
+# Livro dos Espíritos
+
+An Obsidian plugin to study and explore *The Spirits' Book* by Allan Kardec, directly within your vault.
+
+## ✨ Features
+
+- 🔍 **Search** questions and answers by number or keyword  
+- 🔀 **Get a random question** for daily reflection or inspiration  
+- ⭐ **Mark favorites** for quick access later  
+- 🌐 **Multilingual support**: English, Portuguese, Spanish, and French (WIP)  
+- 📚 **Structured content** with book, parts, chapters, and questions  
+
+## 📦 Installation
+
+### Community Plugins (recommended)
+
+1. In Obsidian, go to **Settings > Community Plugins > Browse**
+2. Search for **"Livro dos Espíritos"**
+3. Click **Install**, then **Enable**
+
+### Manual installation
+
+1. Download or clone this repository
+2. Copy the `obsidian-livro-dos-espiritos` folder to your `.obsidian/plugins/` directory
+3. Restart Obsidian and enable the plugin
+
+## 🌍 Supported Languages
+
+- 🇧🇷 Portuguese (original)
+- 🇬🇧 English
+- 🇪🇸 Spanish *(coming soon)*
+- 🇫🇷 French *(coming soon)*
+
+## 🧠 About The Spirits' Book
+
+> “The Spirits’ Book” (1857) is the foundational work of Spiritism, authored by Allan Kardec. It contains 1,019 questions and answers about life, God, the soul, reincarnation, and the spirit world.
+
+This plugin helps you study its content with modern tools and flexible navigation.
+
+## 🔧 Configuration
+
+You can:
+- Change the display language
+- View a random question
+- Favorite or unfavorite any item
+- Search by number, topic, or word
+
+## 📘 Example Use Cases
+
+- Spiritual daily study
+- Note-linking with commentary in your Obsidian vault
+- Group study or Kardecist course integration
+
+## 💡 Future Plans
+
+- Export to Markdown
+- Contextual linking to your notes
+- Timeline study tracking
+
+## ☕ Support this project
+
+If this plugin is useful for your spiritual studies, you can support my work:
+
+[![Buy Me A Coffee](<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="ahlrodrigues" data-color="#FFDD00" data-emoji=""  data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>](https://www.buymeacoffee.com/ahlrodrigues)
+
+Or, if you're in Brazil, use Pix:  
+Chave: `ahlr_2000@yahoo.com`  
+Nome: Antonio Henrique
+
+Thank you! 🙏
+
+### 🛠️ Developed by
+
+[Antonio Henrique](https://github.com/ahlrodrigues)
+
+Contributions welcome!
+
+---
+
+### ✍️ About the Author
+
+    "Those who look outside dream; those who look inside awaken." — Carl Jung
+
+Enthusiast of great ideas
+Spiritist 👻 · Vegetarian 🥬 · Psychoanalyst 🧠 · People Manager 🤝
+#Linux · #OpenSource · #Slackware · #Coffee ☕ · #KDE · #HamRadio 🛰️ · #Obsidian
+
+GitHub: @ahlrodrigues
