@@ -61,7 +61,7 @@ You can:
 
 If this plugin is useful for your spiritual studies, you can support my work:
 
-[![Buy Me A Coffee](<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="ahlrodrigues" data-color="#FFDD00" data-emoji=""  data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>](https://www.buymeacoffee.com/ahlrodrigues)
+![Buy Me A Coffee](<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="ahlrodrigues" data-color="#FFDD00" data-emoji=""  data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>](https://www.buymeacoffee.com/ahlrodrigues)
 
 Or, if you're in Brazil, use Pix:  
 Chave: `ahlr_2000@yahoo.com`  
