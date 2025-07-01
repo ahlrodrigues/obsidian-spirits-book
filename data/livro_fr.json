@@ -1,0 +1,17 @@
+[
+  {
+    "numero": 1,
+    "pergunta": "Qu'est-ce que Dieu ?",
+    "resposta": "Dieu est l'intelligence suprême, cause première de toutes choses."
+  },
+  {
+    "numero": 2,
+    "pergunta": "Que doit-on entendre par infini ?",
+    "resposta": "Ce qui n’a ni commencement ni fin."
+  },
+  {
+    "numero": 3,
+    "pergunta": "Peut-on dire que Dieu est l’infini ?",
+    "resposta": "Définition incomplète : pauvreté du langage humain."
+  }
+]
