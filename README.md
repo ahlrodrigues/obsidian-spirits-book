@@ -1,4 +1,4 @@
-# The Spirits' Book
+# The Spirit's Book
 
 An Obsidian plugin to study and explore *The Spirits' Book* by Allan Kardec, directly within your vault.
 
