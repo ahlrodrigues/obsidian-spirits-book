@@ -3,7 +3,7 @@
 	"name": "The Spirits' Book",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "An Obsidian plugin to study and explore *The Spirits' Book* by Allan Kardec, directly within your vault.",
+	"description": "Plugin to study and explore *The Spirit's Book* by Allan Kardec, directly within your vault.",
 	"author": "ahlrodrigues",
 	"authorUrl": "https://github.com/ahlrodrigues",
 	"fundingUrl": "https://www.buymeacoffee.com/ahlrodrigues",
