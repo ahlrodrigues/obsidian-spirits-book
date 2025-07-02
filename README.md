@@ -1,6 +1,6 @@
 # The Spirit's Book
 
-An Obsidian plugin to study and explore *The Spirits' Book* by Allan Kardec, directly within your vault.
+An Obsidian plugin to study and explore *The Spirit's Book* by Allan Kardec, directly within your vault.
 
 ## ✨ Features
 
@@ -15,7 +15,7 @@ An Obsidian plugin to study and explore *The Spirits' Book* by Allan Kardec, dir
 ### Community Plugins (recommended)
 
 1. In Obsidian, go to **Settings > Community Plugins > Browse**
-2. Search for **"The Spirits' Book"**
+2. Search for **"The Spirit's Book"**
 3. Click **Install**, then **Enable**
 
 ### Manual installation
@@ -31,9 +31,9 @@ An Obsidian plugin to study and explore *The Spirits' Book* by Allan Kardec, dir
 - 🇪🇸 Spanish *(coming soon)*
 - 🇫🇷 French *(coming soon)*
 
-## 🧠 About The Spirits' Book
+## 🧠 About The Spirit's Book
 
-> “The Spirits’ Book” (1857) is the foundational work of Spiritism, authored by Allan Kardec. It contains 1,019 questions and answers about life, God, the soul, reincarnation, and the spirit world.
+> “The Spirit's Book” (1857) is the foundational work of Spiritism, authored by Allan Kardec. It contains 1,019 questions and answers about life, God, the soul, reincarnation, and the spirit world.
 
 This plugin helps you study its content with modern tools and flexible navigation.
 
