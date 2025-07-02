@@ -21,7 +21,8 @@ An Obsidian plugin to study and explore *The Spirit's Book* by Allan Kardec, dir
 ### Manual installation
 
 1. Download or clone this repository
-2. Copy the `obsidian-livro-dos-espiritos` folder to your `.obsidian/plugins/` directory
+2. Copy the `spirits-book` folder to your `.obsidian/plugins/` directory
+3. Copy `data` folder to your `.obsidian/plugins/spirits-book` directory
 3. Restart Obsidian and enable the plugin
 
 ## 🌍 Supported Languages
