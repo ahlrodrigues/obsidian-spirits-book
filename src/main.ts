@@ -1,134 +1,169 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+// main.ts
+
+import {
+	App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab,
+	Setting, DropdownComponent
+} from 'obsidian';
+import { VIEW_TYPE_SPIRITSBOOK, SpiritsBookView } from '../spiritsbookView';
 
 /**
- * Interface para armazenar as configurações do plugin.
- * Aqui você define os campos que o usuário poderá configurar.
+ * Plugin settings interface.
  */
 interface SpiritsBookSettings {
 	mySetting: string;
+	language: 'pt-BR' | 'en' | 'es' | 'fr';
 }
 
 /**
- * Configurações padrão do plugin.
+ * Default plugin settings.
  */
 const DEFAULT_SETTINGS: SpiritsBookSettings = {
-	mySetting: 'default'
-}
+	mySetting: 'default',
+	language: 'en' // default language: English
+};
 
 /**
- * Classe principal do plugin. Herda da classe Plugin do Obsidian.
+ * Main class for the SpiritsBook plugin.
  */
 export default class SpiritsBookPlugin extends Plugin {
 	settings: SpiritsBookSettings;
 
 	/**
-	 * Este método é chamado automaticamente quando o plugin é carregado.
+	 * Called when the plugin is loaded.
 	 */
 	async onload() {
-		// Carrega as configurações salvas pelo usuário, ou aplica os padrões.
-		await this.loadSettings();
+		console.log('[SpiritsBook] Plugin started');
 
-		// Cria um ícone na barra lateral esquerda do Obsidian.
-		const ribbonIconEl = this.addRibbonIcon('dice', 'SpiritsBook Plugin', (evt: MouseEvent) => {
-			// Executado quando o usuário clica no ícone.
-			new Notice('SpiritsBook ativado!');
+		await this.loadSettings();
+		console.log('[SpiritsBook] Settings loaded:', this.settings);
+
+		// Adds icon to the left sidebar
+		const ribbonIconEl = this.addRibbonIcon('book', 'Open The Spirit\'s Book', () => {
+			new Notice('SpiritsBook activated!');
+			this.activateView();
 		});
-		// Adiciona uma classe CSS opcional (pode ser usada para estilizar o botão).
 		ribbonIconEl.addClass('spiritsbook-ribbon-class');
 
-		// Adiciona um item de status na barra inferior (não funciona em apps móveis).
+		// Adds item to the status bar
 		const statusBarItemEl = this.addStatusBarItem();
-		statusBarItemEl.setText('SpiritsBook ativo');
+		statusBarItemEl.setText('📘 SpiritsBook active');
 
-		// Comando simples que abre um modal (sem condições)
+		// Command: open a simple modal
 		this.addCommand({
 			id: 'open-modal-simple',
-			name: 'Abrir modal simples (SpiritsBook)',
+			name: 'Open simple modal (SpiritsBook)',
 			callback: () => {
-				new SpiritsBookModal(this.app).open();
+				new SpiritsBookModal(this.app, this.settings.language).open();
 			}
 		});
 
-		// Comando de editor: insere texto onde o cursor estiver
+		// Command: insert text into the editor
 		this.addCommand({
 			id: 'insert-text-editor',
-			name: 'Inserir texto no editor',
-			editorCallback: (editor: Editor, view: MarkdownView) => {
-				console.log(editor.getSelection()); // Exibe a seleção atual no console
-				editor.replaceSelection('Texto inserido pelo SpiritsBook');
+			name: 'Insert text in editor',
+			editorCallback: (editor: Editor) => {
+				editor.replaceSelection('Text inserted by SpiritsBook');
 			}
 		});
 
-		// Comando condicional: só aparece se o usuário estiver em uma nota Markdown
+		// Command: open modal only if Markdown editor is active
 		this.addCommand({
 			id: 'open-modal-markdown',
-			name: 'Abrir modal se Markdown ativo',
-			checkCallback: (checking: boolean) => {
-				const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
-				if (markdownView) {
+			name: 'Open modal if Markdown active',
+			checkCallback: (checking) => {
+				const view = this.app.workspace.getActiveViewOfType(MarkdownView);
+				if (view) {
 					if (!checking) {
-						new SpiritsBookModal(this.app).open();
+						new SpiritsBookModal(this.app, this.settings.language).open();
 					}
-					return true; // Só mostra o comando se Markdown estiver ativo
+					return true;
 				}
+				return false;
 			}
 		});
 
-		// Adiciona a aba de configurações do plugin
+		// Add settings tab
 		this.addSettingTab(new SpiritsBookSettingTab(this.app, this));
 
-		// Exemplo de listener global (pode ser removido se não for usado)
-		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
-			console.log('click', evt); // Apenas exemplo, remove se não for necessário
-		});
+		// Register sidebar view
+		this.registerView(VIEW_TYPE_SPIRITSBOOK, (leaf) => new SpiritsBookView(leaf, this));
 
-		// Exemplo de intervalo (a cada 5 minutos). Pode ser removido também.
-		this.registerInterval(window.setInterval(() => console.log('setInterval ativo'), 5 * 60 * 1000));
+		// Automatically open view after layout is ready
+		this.app.workspace.onLayoutReady(() => {
+			this.activateView();
+		});
 	}
 
 	/**
-	 * Chamado automaticamente quando o plugin é descarregado/desativado.
+	 * Opens the SpiritsBook sidebar view.
+	 */
+	async activateView() {
+		console.log('[SpiritsBook] Attempting to open sidebar view...');
+		const existing = this.app.workspace.getLeavesOfType(VIEW_TYPE_SPIRITSBOOK)[0];
+
+		if (existing) {
+			console.log('[SpiritsBook] View already exists, revealing...');
+			await this.app.workspace.revealLeaf(existing);
+		} else {
+			const leaf = this.app.workspace.getRightLeaf(false);
+			if (leaf) {
+				await leaf.setViewState({
+					type: VIEW_TYPE_SPIRITSBOOK,
+					active: true
+				});
+				console.log('[SpiritsBook] View created on the right sidebar.');
+			} else {
+				console.warn('[SpiritsBook] Could not obtain a right-side leaf.');
+			}
+		}
+	}
+
+	/**
+	 * Called when the plugin is unloaded.
 	 */
 	onunload() {
-		// Pode adicionar lógica de limpeza se necessário
+		console.log('[SpiritsBook] Plugin unloaded');
 	}
 
 	/**
-	 * Carrega as configurações salvas do armazenamento local do Obsidian.
+	 * Load plugin settings.
 	 */
 	async loadSettings() {
 		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
 	}
 
 	/**
-	 * Salva as configurações no armazenamento local.
+	 * Save plugin settings.
 	 */
 	async saveSettings() {
+		console.log('[SpiritsBook] Saving settings:', this.settings);
 		await this.saveData(this.settings);
 	}
 }
 
 /**
- * Modal personalizado que aparece quando o comando é ativado.
+ * Simple modal displaying the current language.
  */
 class SpiritsBookModal extends Modal {
-	constructor(app: App) {
+	language: string;
+
+	constructor(app: App, language: string) {
 		super(app);
+		this.language = language;
 	}
 
 	onOpen() {
 		const { contentEl } = this;
-		contentEl.setText('Olá! Este é o SpiritsBook.');
+		contentEl.setText(`Current language: ${this.language}`);
 	}
 
 	onClose() {
-		const { contentEl } = this;
-		contentEl.empty();
+		this.contentEl.empty();
 	}
 }
 
 /**
- * Aba de configurações do plugin, visível nas configurações do Obsidian.
+ * Plugin settings tab.
  */
 class SpiritsBookSettingTab extends PluginSettingTab {
 	plugin: SpiritsBookPlugin;
@@ -142,16 +177,50 @@ class SpiritsBookSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		// Cria um campo de texto nas configurações
+		// Text setting
 		new Setting(containerEl)
-			.setName('Chave do SpiritsBook')
-			.setDesc('Configure aqui o valor que será usado pelo plugin')
+			.setName('SpiritsBook Key')
+			.setDesc('Example configurable text')
 			.addText(text => text
-				.setPlaceholder('Digite algo...')
+				.setPlaceholder('Type something...')
 				.setValue(this.plugin.settings.mySetting)
 				.onChange(async (value) => {
 					this.plugin.settings.mySetting = value;
 					await this.plugin.saveSettings();
 				}));
+
+		// Language setting
+		new Setting(containerEl)
+			.setName('Language')
+			.setDesc('Select content language')
+			.addDropdown((dropdown: DropdownComponent) => {
+				dropdown
+					.addOption('pt-BR', 'Portuguese')
+					.addOption('en', 'English')
+					.addOption('es', 'Spanish')
+					.addOption('fr', 'French')
+					.setValue(this.plugin.settings.language)
+					.onChange(async (value: 'pt-BR' | 'en' | 'es' | 'fr') => {
+						console.log('[SpiritsBook] Language changed to:', value);
+						this.plugin.settings.language = value;
+						await this.plugin.saveSettings();
+
+						// Reload view if open
+						const existingLeaf = this.app.workspace.getLeavesOfType(VIEW_TYPE_SPIRITSBOOK)[0];
+						if (existingLeaf != null) {
+							console.log('[SpiritsBook] Closing existing view to apply new language...');
+							await existingLeaf.detach();
+						}
+
+						const newLeaf = this.app.workspace.getRightLeaf(false);
+						if (newLeaf) {
+							console.log('[SpiritsBook] Opening new view with updated language...');
+							await newLeaf.setViewState({
+								type: VIEW_TYPE_SPIRITSBOOK,
+								active: true
+							});
+						}
+					});
+			});
 	}
 }
