@@ -6,49 +6,37 @@ import {
 } from 'obsidian';
 import { VIEW_TYPE_SPIRITSBOOK, SpiritsBookView } from '../spiritsbookView';
 
-/**
- * Plugin settings interface.
- */
 interface SpiritsBookSettings {
 	mySetting: string;
 	language: 'pt-BR' | 'en' | 'es' | 'fr';
 }
 
-/**
- * Default plugin settings.
- */
 const DEFAULT_SETTINGS: SpiritsBookSettings = {
 	mySetting: 'default',
-	language: 'en' // default language: English
+	language: 'en'
 };
 
-/**
- * Main class for the SpiritsBook plugin.
- */
 export default class SpiritsBookPlugin extends Plugin {
 	settings: SpiritsBookSettings;
 
-	/**
-	 * Called when the plugin is loaded.
-	 */
 	async onload() {
 		console.log('[SpiritsBook] Plugin started');
 
 		await this.loadSettings();
 		console.log('[SpiritsBook] Settings loaded:', this.settings);
 
-		// Adds icon to the left sidebar
+		// Injetar estilos CSS diretamente no DOM
+		this.injectStyles();
+
 		const ribbonIconEl = this.addRibbonIcon('book', 'Open The Spirit\'s Book', () => {
 			new Notice('SpiritsBook activated!');
 			this.activateView();
 		});
 		ribbonIconEl.addClass('spiritsbook-ribbon-class');
 
-		// Adds item to the status bar
 		const statusBarItemEl = this.addStatusBarItem();
 		statusBarItemEl.setText('📘 SpiritsBook active');
 
-		// Command: open a simple modal
 		this.addCommand({
 			id: 'open-modal-simple',
 			name: 'Open simple modal (SpiritsBook)',
@@ -57,7 +45,6 @@ export default class SpiritsBookPlugin extends Plugin {
 			}
 		});
 
-		// Command: insert text into the editor
 		this.addCommand({
 			id: 'insert-text-editor',
 			name: 'Insert text in editor',
@@ -66,7 +53,6 @@ export default class SpiritsBookPlugin extends Plugin {
 			}
 		});
 
-		// Command: open modal only if Markdown editor is active
 		this.addCommand({
 			id: 'open-modal-markdown',
 			name: 'Open modal if Markdown active',
@@ -82,21 +68,68 @@ export default class SpiritsBookPlugin extends Plugin {
 			}
 		});
 
-		// Add settings tab
 		this.addSettingTab(new SpiritsBookSettingTab(this.app, this));
-
-		// Register sidebar view
 		this.registerView(VIEW_TYPE_SPIRITSBOOK, (leaf) => new SpiritsBookView(leaf, this));
 
-		// Automatically open view after layout is ready
 		this.app.workspace.onLayoutReady(() => {
 			this.activateView();
 		});
 	}
 
-	/**
-	 * Opens the SpiritsBook sidebar view.
-	 */
+	// Estilos embutidos no DOM, para personalizar layout da modal
+	injectStyles() {
+		const style = document.createElement("style");
+		style.textContent = `
+			.spiritsbook-container {
+				font-size: 16px;
+				font-family: 'Segoe UI', sans-serif;
+				background-color: var(--background-primary);
+				color: var(--text-normal);
+				padding: 20px;
+				border-radius: 8px;
+				max-width: 600px;
+				margin: auto;
+			}
+
+			.spiritsbook-question {
+				font-weight: bold;
+				margin-bottom: 10px;
+				font-size: 1.1em;
+			}
+
+			.spiritsbook-answer {
+				background-color: var(--background-secondary);
+				padding: 15px;
+				border-radius: 6px;
+				margin-top: 10px;
+				white-space: pre-wrap;
+				font-size: 15px;
+				line-height: 1.5;
+			}
+
+			.spiritsbook-buttons {
+				display: flex;
+				justify-content: flex-end;
+				margin-top: 20px;
+			}
+
+			.spiritsbook-button {
+				background-color: var(--interactive-accent);
+				color: white;
+				border: none;
+				padding: 8px 16px;
+				border-radius: 6px;
+				cursor: pointer;
+				font-size: 14px;
+			}
+
+			.spiritsbook-button:hover {
+				background-color: var(--interactive-accent-hover);
+			}
+		`;
+		document.head.appendChild(style);
+	}
+
 	async activateView() {
 		console.log('[SpiritsBook] Attempting to open sidebar view...');
 		const existing = this.app.workspace.getLeavesOfType(VIEW_TYPE_SPIRITSBOOK)[0];
@@ -118,32 +151,21 @@ export default class SpiritsBookPlugin extends Plugin {
 		}
 	}
 
-	/**
-	 * Called when the plugin is unloaded.
-	 */
 	onunload() {
 		console.log('[SpiritsBook] Plugin unloaded');
 	}
 
-	/**
-	 * Load plugin settings.
-	 */
 	async loadSettings() {
 		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
 	}
 
-	/**
-	 * Save plugin settings.
-	 */
 	async saveSettings() {
 		console.log('[SpiritsBook] Saving settings:', this.settings);
 		await this.saveData(this.settings);
 	}
 }
 
-/**
- * Simple modal displaying the current language.
- */
+// Modal com layout visual aprimorado: pergunta, resposta e botão
 class SpiritsBookModal extends Modal {
 	language: string;
 
@@ -154,7 +176,26 @@ class SpiritsBookModal extends Modal {
 
 	onOpen() {
 		const { contentEl } = this;
-		contentEl.setText(`Current language: ${this.language}`);
+		contentEl.empty();
+
+		const container = contentEl.createDiv({ cls: 'spiritsbook-container' });
+
+		container.createEl('div', {
+			cls: 'spiritsbook-question',
+			text: '1019. Onde está escrita a lei de Deus?'
+		});
+
+		container.createEl('div', {
+			cls: 'spiritsbook-answer',
+			text: 'Na consciência.'
+		});
+
+		const buttons = container.createDiv({ cls: 'spiritsbook-buttons' });
+		const closeBtn = buttons.createEl('button', {
+			cls: 'spiritsbook-button',
+			text: 'Fechar'
+		});
+		closeBtn.addEventListener('click', () => this.close());
 	}
 
 	onClose() {
@@ -162,9 +203,6 @@ class SpiritsBookModal extends Modal {
 	}
 }
 
-/**
- * Plugin settings tab.
- */
 class SpiritsBookSettingTab extends PluginSettingTab {
 	plugin: SpiritsBookPlugin;
 
@@ -177,7 +215,6 @@ class SpiritsBookSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		// Text setting
 		new Setting(containerEl)
 			.setName('SpiritsBook Key')
 			.setDesc('Example configurable text')
@@ -189,7 +226,6 @@ class SpiritsBookSettingTab extends PluginSettingTab {
 					await this.plugin.saveSettings();
 				}));
 
-		// Language setting
 		new Setting(containerEl)
 			.setName('Language')
 			.setDesc('Select content language')
@@ -205,7 +241,6 @@ class SpiritsBookSettingTab extends PluginSettingTab {
 						this.plugin.settings.language = value;
 						await this.plugin.saveSettings();
 
-						// Reload view if open
 						const existingLeaf = this.app.workspace.getLeavesOfType(VIEW_TYPE_SPIRITSBOOK)[0];
 						if (existingLeaf != null) {
 							console.log('[SpiritsBook] Closing existing view to apply new language...');
