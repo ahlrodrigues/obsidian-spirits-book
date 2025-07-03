@@ -1,5 +1,5 @@
 {
-	"id": "obsisdian-spirits-book",
+	"id": "spirits-book",
 	"name": "The Spirit's Book",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
@@ -7,6 +7,5 @@
 	"author": "Antonio Henrique",
 	"authorUrl": "https://github.com/ahlrodrigues",
 	"fundingUrl": "https://www.buymeacoffee.com/ahlrodrigues",
-	"isDesktopOnly": true,
-	"main": "main.js"
+	"isDesktopOnly": true
 }
