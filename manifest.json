@@ -7,5 +7,6 @@
 	"author": "Antonio Henrique",
 	"authorUrl": "https://github.com/ahlrodrigues",
 	"fundingUrl": "https://www.buymeacoffee.com/ahlrodrigues",
-	"isDesktopOnly": true
+	"isDesktopOnly": true,
+	"main": "main.js"
 }

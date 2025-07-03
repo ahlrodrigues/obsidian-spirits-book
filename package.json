@@ -1,5 +1,5 @@
 {
-	"name": "obsidian-spirits-book",
+	"name": "spirits-book",
 	"version": "1.0.0",
 	"description": "An Obsidian plugin to study and explore *The Spirits' Book* by Allan Kardec, directly within your vault.",
 	"main": "main.js",
