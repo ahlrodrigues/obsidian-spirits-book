@@ -10,6 +10,11 @@ An Obsidian plugin to study and explore *The Spirit's Book* by Allan Kardec, dir
 - 🌐 **Multilingual support**: English, Portuguese, Spanish, and French (WIP)  
 - 📚 **Structured content** with book, parts, chapters, and questions  
 
+## ⚠️ Mobile Incompatibility
+
+> **Important:** This plugin is **not compatible with Obsidian Mobile** (iOS or Android).  
+> It was designed for **desktop use only**, due to technical limitations of the mobile API and filesystem access.
+
 ## 📦 Installation
 
 ### Community Plugins (recommended)
@@ -23,14 +28,14 @@ An Obsidian plugin to study and explore *The Spirit's Book* by Allan Kardec, dir
 1. Download or clone this repository
 2. Copy the `spirits-book` folder to your `.obsidian/plugins/` directory
 3. Copy `data` folder to your `.obsidian/plugins/spirits-book` directory
-3. Restart Obsidian and enable the plugin
+4. Restart Obsidian and enable the plugin
 
 ## 🌍 Supported Languages
 
 - 🇧🇷 Portuguese (original)
 - 🇬🇧 English
-- 🇪🇸 Spanish *(coming soon)*
-- 🇫🇷 French *(coming soon)*
+- 🇪🇸 Spanish
+- 🇫🇷 French
 
 ## 🧠 About The Spirit's Book
 
@@ -54,9 +59,13 @@ You can:
 
 ## 💡 Future Plans
 
-- Export to Markdown
-- Contextual linking to your notes
-- Timeline study tracking
+- [ ] Export to Markdown
+- [ ] Contextual linking to your notes
+- [ ] Timeline study tracking
+- [ ] Add search functionality
+- [ ] Improve UI customization
+- [ ] Add more languages (e.g., German, Italian)
+- [ ] Implement daily question notifications
 
 ## ☕ Support this project
 
@@ -84,12 +93,12 @@ Contributions welcome!
 
     "Those who look outside dream; those who look inside awaken." — Carl Jung
 
-Enthusiast of great ideas
-Spiritist 👻 · Vegetarian 🥬 · Psychoanalyst 🧠 · People Manager 🤝
+Enthusiast of great ideas  
+Spiritist 👻 · Vegetarian 🥬 · Psychoanalyst 🧠 · People Manager 🤝  
 #Linux · #OpenSource · #Slackware · #Coffee ☕ · #KDE · #HamRadio 🛰️ · #Obsidian
 
 GitHub: @ahlrodrigues
 
---- 
+---
 
 #spirits-book #the-spirits-book #allan-kardec #spiritism #spirituality #mediumship #kardecism #philosophy #moral-education #personal-growth #religion #esoteric #study-tool
