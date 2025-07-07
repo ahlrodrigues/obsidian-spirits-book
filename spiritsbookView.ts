@@ -120,36 +120,42 @@ export class SpiritsBookView extends ItemView {
     this.renderUI();
   }
 
-  // Loads the questions from a JSON file according to the selected language
-  async loadQuestions() {
-    const lang = (this.plugin.settings.language || "en") as SupportedLanguage;
-    try {
-      const adapter = this.plugin.app.vault.adapter;
-      if (!(adapter instanceof FileSystemAdapter)) {
-        new Notice("Incompatible storage adapter.");
-        return;
-      }
-
-      const basePath = adapter.getBasePath();
-      let dataPath: string;
-
-      try {
-        const overridePathRaw = await fs.readFile(path.join(basePath, ".obsidian/plugins/obsisdian-spirits-book/path.json"), "utf-8");
-        const override = JSON.parse(overridePathRaw);
-        dataPath = path.isAbsolute(override.path) ? override.path : path.join(basePath, override.path);
-      } catch {
-        dataPath = path.join(basePath, ".obsidian/plugins/obsisdian-spirits-book/data");
-      }
-
-      const fullPath = path.join(dataPath, `livro_${lang}.json`);
-      const content = await fs.readFile(fullPath, "utf-8");
-      this.questions = JSON.parse(content);
-
-    } catch (e) {
-      new Notice(i18n[lang].errorLoading);
+// Loads the questions from a JSON file according to the selected language
+async loadQuestions() {
+  const lang = (this.plugin.settings.language || "en") as SupportedLanguage;
+  try {
+    const adapter = this.plugin.app.vault.adapter;
+    if (!(adapter instanceof FileSystemAdapter)) {
+      new Notice("Incompatible storage adapter.");
+      return;
     }
-  }
 
+    const basePath = adapter.getBasePath();
+    const configDir = this.plugin.app.vault.configDir;
+    const pluginFolder = path.join(configDir, "plugins", "obsisdian-spirits-book");
+    let dataPath: string;
+
+    try {
+      const overridePathRaw = await fs.readFile(
+        path.join(basePath, pluginFolder, "path.json"),
+        "utf-8"
+      );
+      const override = JSON.parse(overridePathRaw);
+      dataPath = path.isAbsolute(override.path)
+        ? override.path
+        : path.join(basePath, override.path);
+    } catch {
+      dataPath = path.join(basePath, pluginFolder, "data");
+    }
+
+    const fullPath = path.join(dataPath, `livro_${lang}.json`);
+    const content = await fs.readFile(fullPath, "utf-8");
+    this.questions = JSON.parse(content);
+  } catch (e) {
+    new Notice(i18n[lang].errorLoading);
+    console.error("Erro ao carregar o livro:", e);
+  }
+}
   // Renders the main UI (All questions tab)
   renderUI() {
     if (!this.questions.length) return;
@@ -161,7 +167,7 @@ export class SpiritsBookView extends ItemView {
     const wrapper = this.container.createDiv("spiritsbook-wrapper");
 
     const title = wrapper.createEl("h1", { text: "📘 " + this.getDisplayText() });
-    title.style.textAlign = "center";
+    title.addClass("spiritsbook-title");
 
     const tabs = wrapper.createDiv("spiritsbook-tabs");
     if (this.plugin.settings.tab !== 'favorites') {
@@ -189,7 +195,8 @@ export class SpiritsBookView extends ItemView {
     rndBtn.onclick = () => this.showRandom();
 
     const footer = wrapper.createDiv("spiritsbook-footer");
-    footer.style.textAlign = "center";
+    footer.addClass("spiritsbook-footer");
+
     const select = footer.createEl("select") as HTMLSelectElement;
     this.questions.forEach((q, i) => {
       select.add(new Option(`#${q.numero} - ${q.pergunta?.substring(0, 50) || "..."}`, i.toString()));
@@ -258,8 +265,10 @@ export class SpiritsBookView extends ItemView {
     display.empty();
 
     const questionEl = display.createDiv({ cls: 'spiritsbook-question' });
-    questionEl.createEl("h2", { text: `${this.translate("question", this.plugin.settings.language)} ${q.numero}`, attr: { style: "text-align: center;" } });
-    questionEl.createEl("p", { text: q.pergunta });
+    const h2 = questionEl.createEl("h2", {
+      text: `${this.translate("question", this.plugin.settings.language)} ${q.numero}`
+    });
+    h2.addClass("spiritsbook-question-title");    questionEl.createEl("p", { text: q.pergunta });
 
     const answerEl = display.createEl("blockquote", { text: q.resposta });
     answerEl.addClass("spiritsbook-answer");
@@ -292,7 +301,6 @@ export class SpiritsBookView extends ItemView {
 
   // Called when the view is closed
   async onClose() {
-    console.log("[SpiritsBook] View closed");
   }
 
   // Helper function for translating UI strings
@@ -310,6 +318,16 @@ export class SpiritsBookView extends ItemView {
       .spiritsbook-wrapper {
         padding: 1em 0.5em;
       }
+  
+      .spiritsbook-title,
+      .spiritsbook-footer,
+      .spiritsbook-question-title,
+      .spiritsbook-tabs,
+      .spiritsbook-nav,
+      .spiritsbook-fav-container {
+        text-align: center;
+      }
+  
       .spiritsbook-answer {
         background-color: var(--background-primary-alt);
         color: var(--text-normal);
@@ -324,25 +342,22 @@ export class SpiritsBookView extends ItemView {
         margin-left: auto;
         margin-right: auto;
       }
+  
       .spiritsbook-question {
         margin-bottom: 1em;
       }
-      .spiritsbook-nav,
-      .spiritsbook-fav-container,
-      .spiritsbook-tabs {
-        text-align: center;
-        margin-top: 1em;
-      }
+  
       .spiritsbook-tabs button:not(:last-child),
       .spiritsbook-nav button:not(:last-child),
       .spiritsbook-fav-container button:not(:last-child) {
         margin-right: 0.5em;
       }
+  
       .spiritsbook-footer {
         margin-top: 2em;
-        text-align: center;
       }
     `;
     document.head.appendChild(style);
   }
+  
 }

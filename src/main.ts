@@ -23,10 +23,8 @@ export default class SpiritsBookPlugin extends Plugin {
 
 	// Called when the plugin is loaded
 	async onload() {
-		console.log('[SpiritsBook] Plugin started');
 
 		await this.loadSettings();
-		console.log('[SpiritsBook] Settings loaded:', this.settings);
 
 		// Inject custom styles for modals and views
 		this.injectStyles();
@@ -88,7 +86,6 @@ export default class SpiritsBookPlugin extends Plugin {
 
 	// Called when the plugin is unloaded
 	onunload() {
-		console.log('[SpiritsBook] Plugin unloaded');
 	}
 
 	// Inject CSS styles for modals and layout
@@ -142,11 +139,9 @@ export default class SpiritsBookPlugin extends Plugin {
 
 	// Open the sidebar view, creating it if necessary
 	async activateView() {
-		console.log('[SpiritsBook] Attempting to open sidebar view...');
 		const existing = this.app.workspace.getLeavesOfType(VIEW_TYPE_SPIRITSBOOK)[0];
 
 		if (existing) {
-			console.log('[SpiritsBook] View already exists, revealing...');
 			await this.app.workspace.revealLeaf(existing);
 		} else {
 			const leaf = this.app.workspace.getRightLeaf(false);
@@ -155,7 +150,6 @@ export default class SpiritsBookPlugin extends Plugin {
 					type: VIEW_TYPE_SPIRITSBOOK,
 					active: true
 				});
-				console.log('[SpiritsBook] View created on the right sidebar.');
 			} else {
 				console.warn('[SpiritsBook] Could not obtain a right-side leaf.');
 			}
@@ -170,7 +164,6 @@ export default class SpiritsBookPlugin extends Plugin {
 
 	// Save settings to internal storage
 	async saveSettings() {
-		console.log('[SpiritsBook] Saving settings:', this.settings);
 		await this.saveData(this.settings); // 👈 centralized and safe
 	}
 }
@@ -250,20 +243,17 @@ class SpiritsBookSettingTab extends PluginSettingTab {
 					.addOption('fr', 'French')
 					.setValue(this.plugin.settings.language)
 					.onChange(async (value: 'pt-BR' | 'en' | 'es' | 'fr') => {
-						console.log('[SpiritsBook] Language changed to:', value);
 						this.plugin.settings.language = value;
 						await this.plugin.saveSettings();
 
 						// Reload the view to apply the new language
 						const existingLeaf = this.app.workspace.getLeavesOfType(VIEW_TYPE_SPIRITSBOOK)[0];
 						if (existingLeaf != null) {
-							console.log('[SpiritsBook] Closing existing view to apply new language...');
 							await existingLeaf.detach();
 						}
 
 						const newLeaf = this.app.workspace.getRightLeaf(false);
 						if (newLeaf) {
-							console.log('[SpiritsBook] Opening new view with updated language...');
 							await newLeaf.setViewState({
 								type: VIEW_TYPE_SPIRITSBOOK,
 								active: true
