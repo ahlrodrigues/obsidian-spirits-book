@@ -25,9 +25,8 @@ export default class SpiritsBookPlugin extends Plugin {
 	async onload() {
 
 		await this.loadSettings();
+		this.registerStylesheet();
 
-		// Inject custom styles for modals and views
-		this.injectStyles();
 
 		// Add ribbon icon to sidebar
 		const ribbonIconEl = this.addRibbonIcon('book', 'Open The Spirit\'s Book', () => {
@@ -35,10 +34,6 @@ export default class SpiritsBookPlugin extends Plugin {
 			this.activateView();
 		});
 		ribbonIconEl.addClass('spiritsbook-ribbon-class');
-
-		// Status bar info
-		const statusBarItemEl = this.addStatusBarItem();
-		statusBarItemEl.setText('📘 SpiritsBook active');
 
 		// Add sample commands
 		this.addCommand({
@@ -88,55 +83,21 @@ export default class SpiritsBookPlugin extends Plugin {
 	onunload() {
 	}
 
-	// Inject CSS styles for modals and layout
-	injectStyles() {
-		const style = document.createElement("style");
-		style.textContent = `
-			.spiritsbook-container {
-				font-size: 16px;
-				font-family: 'Segoe UI', sans-serif;
-				background-color: var(--background-primary);
-				color: var(--text-normal);
-				padding: 20px;
-				border-radius: 8px;
-				max-width: 600px;
-				margin: auto;
-			}
-			.spiritsbook-question {
-				font-weight: bold;
-				margin-bottom: 10px;
-				font-size: 1.1em;
-			}
-			.spiritsbook-answer {
-				background-color: var(--background-secondary);
-				padding: 15px;
-				border-radius: 6px;
-				margin-top: 10px;
-				white-space: pre-wrap;
-				font-size: 15px;
-				line-height: 1.5;
-			}
-			.spiritsbook-buttons {
-				display: flex;
-				justify-content: flex-end;
-				margin-top: 20px;
-			}
-			.spiritsbook-button {
-				background-color: var(--interactive-accent);
-				color: white;
-				border: none;
-				padding: 8px 16px;
-				border-radius: 6px;
-				cursor: pointer;
-				font-size: 14px;
-			}
-			.spiritsbook-button:hover {
-				background-color: var(--interactive-accent-hover);
-			}
-		`;
-		document.head.appendChild(style);
+	async registerStylesheet() {
+		const adapter = this.app.vault.adapter;
+		const cssPath = `${this.manifest.dir}/style.css`;
+		try {
+			const cssContent = await adapter.read(cssPath);
+			const style = document.createElement("style");
+			style.id = "spiritsbook-style";
+			style.textContent = cssContent;
+			document.head.appendChild(style);
+		} catch (e) {
+			console.error("[SpiritsBook] Failed to load style.css:", e);
+		}
 	}
-
+	
+	
 	// Open the sidebar view, creating it if necessary
 	async activateView() {
 		const existing = this.app.workspace.getLeavesOfType(VIEW_TYPE_SPIRITSBOOK)[0];

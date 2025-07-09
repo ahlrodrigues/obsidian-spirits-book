@@ -113,7 +113,6 @@ export class SpiritsBookView extends ItemView {
 
   // Called when the view is opened — loads styles, questions and renders UI
   async onOpen() {
-    this.injectStyles();
     this.container = this.containerEl.children[1] as HTMLElement;
     this.container.empty();
     await this.loadQuestions();
@@ -225,7 +224,8 @@ async loadQuestions() {
     const wrapper = this.container.createDiv("spiritsbook-wrapper");
 
     const favTitle = wrapper.createEl("h1", { text: t.favoritesTitle });
-    favTitle.style.textAlign = "center";
+    favTitle.addClass("spiritsbook-title");
+    
 
     const tabs = wrapper.createDiv("spiritsbook-tabs");
     if (this.plugin.settings.tab !== 'all') {
@@ -306,58 +306,6 @@ async loadQuestions() {
   // Helper function for translating UI strings
   private translate(key: string, lang: SupportedLanguage = "en") {
     return i18n[lang]?.[key] || key;
-  }
-
-  // Injects custom CSS styles for the plugin UI
-  injectStyles() {
-    const styleId = "spiritsbook-inline-style";
-    if (document.getElementById(styleId)) return;
-    const style = document.createElement("style");
-    style.id = styleId;
-    style.textContent = `
-      .spiritsbook-wrapper {
-        padding: 1em 0.5em;
-      }
-  
-      .spiritsbook-title,
-      .spiritsbook-footer,
-      .spiritsbook-question-title,
-      .spiritsbook-tabs,
-      .spiritsbook-nav,
-      .spiritsbook-fav-container {
-        text-align: center;
-      }
-  
-      .spiritsbook-answer {
-        background-color: var(--background-primary-alt);
-        color: var(--text-normal);
-        padding: 1em;
-        border-radius: 8px;
-        margin-top: 1em;
-        font-style: italic;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-        width: 100%;
-        box-sizing: border-box;
-        max-width: 700px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-  
-      .spiritsbook-question {
-        margin-bottom: 1em;
-      }
-  
-      .spiritsbook-tabs button:not(:last-child),
-      .spiritsbook-nav button:not(:last-child),
-      .spiritsbook-fav-container button:not(:last-child) {
-        margin-right: 0.5em;
-      }
-  
-      .spiritsbook-footer {
-        margin-top: 2em;
-      }
-    `;
-    document.head.appendChild(style);
   }
   
 }

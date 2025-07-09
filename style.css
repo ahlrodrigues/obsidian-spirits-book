@@ -1,0 +1,107 @@
+/* style.css */
+
+/* Container do modal */
+.spiritsbook-container {
+	font-size: 16px;
+	font-family: 'Segoe UI', sans-serif;
+	background-color: var(--background-primary);
+	color: var(--text-normal);
+	padding: 20px;
+	border-radius: 8px;
+	max-width: 600px;
+	margin: auto;
+}
+
+/* Título das perguntas */
+.spiritsbook-question {
+	font-weight: bold;
+	margin-bottom: 1em;
+	font-size: 1.1em;
+}
+
+/* Resposta das perguntas */
+.spiritsbook-answer {
+	background-color: var(--background-primary-alt);
+	color: var(--text-normal);
+	padding: 1em;
+	border-radius: 8px;
+	margin-top: 1em;
+	font-style: italic;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+	width: 100%;
+	box-sizing: border-box;
+	max-width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+	white-space: pre-wrap;
+	font-size: 15px;
+	line-height: 1.5;
+}
+
+/* Botões do modal */
+.spiritsbook-buttons {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 20px;
+}
+
+.spiritsbook-button {
+	background-color: var(--interactive-accent);
+	color: white;
+	border: none;
+	padding: 8px 16px;
+	border-radius: 6px;
+	cursor: pointer;
+	font-size: 14px;
+}
+
+.spiritsbook-button:hover {
+	background-color: var(--interactive-accent-hover);
+}
+
+/* Estrutura principal da view lateral */
+.spiritsbook-wrapper {
+	padding: 1em 0.5em;
+}
+
+.spiritsbook-title,
+.spiritsbook-footer,
+.spiritsbook-question-title {
+	text-align: center;
+}
+
+/* Áreas de botões (tabs, navegação, favoritos) */
+.spiritsbook-nav,
+.spiritsbook-fav-container,
+.spiritsbook-tabs {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	margin-top: 1em;
+}
+
+/* Estilo unificado para botões das áreas acima */
+.spiritsbook-nav button,
+.spiritsbook-fav-container button,
+.spiritsbook-tabs button {
+	padding: 8px 12px;
+	font-size: 14px;
+	border-radius: 6px;
+	cursor: pointer;
+	border: none;
+	background-color: var(--interactive-accent);
+	color: white;
+	transition: background-color 0.2s ease-in-out;
+}
+
+.spiritsbook-nav button:hover,
+.spiritsbook-fav-container button:hover,
+.spiritsbook-tabs button:hover {
+	background-color: var(--interactive-accent-hover);
+}
+
+/* Rodapé da view */
+.spiritsbook-footer {
+	margin-top: 2em;
+}
